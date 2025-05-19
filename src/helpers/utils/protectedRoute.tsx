@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+
 import { PageURLs } from '@helpers/enums/enums';
 
 interface ProtectedRouteProps {
@@ -13,6 +14,11 @@ export default function ProtectedRoute(props: ProtectedRouteProps): JSX.Element 
   if (isProtected) {
     return <>{component}</>;
   } else {
-    return <Navigate to={PageURLs.SIGN_IN} />;
+    return (
+      <Navigate
+        to={PageURLs.SIGN_IN}
+        replace
+      />
+    );
   }
 }

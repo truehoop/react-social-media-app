@@ -1,14 +1,10 @@
 import { Box } from '@mui/system';
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '@base/store';
-import { Languages } from '@helpers/enums/enums';
-import { setSelectedLanguage } from '@helpers/reducers/appReducer';
-import { selectLanguage } from '@helpers/selectors/appSelector';
-import { flagEN, flagTR } from '@helpers/utils/SVG';
+import { useTranslation } from 'react-i18next';
 
 export default function LanguageSelectorPopover() {
-  const dispatch = useAppDispatch();
-  const selectedLanguage = useAppSelector(selectLanguage) || Languages.EN;
+  const { i18n } = useTranslation();
+  const selectedLanguage = i18n.language;
 
   return (
     <Box
@@ -17,28 +13,16 @@ export default function LanguageSelectorPopover() {
       gap={0.5}
     >
       <button
-        className={`cursor-pointer hover:bg-[#3333331c] p-2 rounded-lg ${selectedLanguage === Languages.TR ? 'bg-[#0000000D]' : ''}`}
-        onClick={() => dispatch(setSelectedLanguage(Languages.TR))}
+        className={`cursor-pointer hover:bg-[#3333331c] p-2 rounded-lg ${selectedLanguage === 'ko' ? 'bg-[#0000000D]' : ''}`}
+        onClick={() => i18n.changeLanguage('ko')}
       >
-        <Box
-          display="flex"
-          flexDirection="row"
-          gap={1}
-        >
-          {flagTR} Turkish
-        </Box>
+        한국어
       </button>
       <button
-        className={`cursor-pointer hover:bg-[#3333331c] p-2 rounded-lg ${selectedLanguage === Languages.EN ? 'bg-[#0000000D]' : ''}`}
-        onClick={() => dispatch(setSelectedLanguage(Languages.EN))}
+        className={`cursor-pointer hover:bg-[#3333331c] p-2 rounded-lg ${selectedLanguage === 'en' ? 'bg-[#0000000D]' : ''}`}
+        onClick={() => i18n.changeLanguage('en')}
       >
-        <Box
-          display="flex"
-          flexDirection="row"
-          gap={1}
-        >
-          {flagEN} English
-        </Box>
+        English
       </button>
     </Box>
   );

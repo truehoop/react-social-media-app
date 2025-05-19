@@ -8,9 +8,10 @@ import ReactDOM from 'react-dom/client';
 import '@base/index.scss';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+
 import App from '@base/App';
 import '@base/i18n';
-import { store } from '@base/store';
+import store from '@base/store';
 import Loading from '@components/shared/Loading';
 
 const theme = createTheme({
@@ -35,7 +36,15 @@ root.render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <Suspense fallback={<Loading />}>
-          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}>
+          <GoogleOAuthProvider
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}
+            onScriptLoadSuccess={() => {
+              console.log('Google OAuth script loaded successfully');
+            }}
+            onScriptLoadError={() => {
+              console.error('Google OAuth script failed to load');
+            }}
+          >
             <App />
             <Analytics />
             <SpeedInsights />

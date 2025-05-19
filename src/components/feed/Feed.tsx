@@ -1,9 +1,11 @@
 import { Box } from '@mui/system';
 import React from 'react';
+
 import { useAppSelector } from '@base/store';
 import PostCard from '@components/feed/Post';
 import Share from '@components/feed/Share';
 import { selectRandomPosts } from '@helpers/selectors/APIRequestSelector';
+import { RandomPost } from '@helpers/types/api';
 
 export default function Feed() {
   const posts = useAppSelector(selectRandomPosts);
@@ -17,7 +19,7 @@ export default function Feed() {
     >
       <Share />
 
-      {posts.map((post, index) => (
+      {posts.map((post: RandomPost, index: number) => (
         <PostCard
           key={post.id}
           post={post}

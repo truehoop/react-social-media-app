@@ -1,0 +1,38 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 새로운 페이지 추가 시 컴포넌트화 가이드
+
+## 목적
+새로운 페이지를 추가할 때, 유지보수성과 재사용성을 높이기 위해 모든 주요 UI/기능 영역을 반드시 별도의 컴포넌트로 분리하여 구현해야 합니다.
+
+## 필수 규칙
+
+### 1. 페이지 구조 설계
+- 페이지의 주요 시각적/기능적 영역(헤더, 폼, 리스트, 버튼, 섹션 등)을 식별한다.
+- 각 영역은 별도의 React 컴포넌트로 분리한다.
+- 각 컴포넌트는 `src/components/` 하위에 관련 폴더를 만들어 관리한다.
+  - 예: `src/components/myPage/MyPageHeader.tsx`, `src/components/myPage/MyPageForm.tsx` 등
+
+### 2. 컴포넌트화 예시
+- 예를 들어, 도서 등록 페이지를 추가할 경우:
+  - 상단 헤더: `BookRegisterHeader`
+  - 이미지 업로더: `BookImageUploader`
+  - 입력 폼: `BookRegisterForm`
+  - 위치 정보: `BookLocationInfo`
+  - 등록 버튼: `BookRegisterButton`
+- 각 컴포넌트는 props로 상태와 핸들러를 주입받아야 하며, 내부에서 직접 상태를 가지지 않는다(페이지에서 상태 관리).
+
+### 3. 코드 작성 시 유의사항
+- 컴포넌트별로 역할이 명확해야 하며, 하나의 컴포넌트가 너무 많은 역할을 하지 않도록 한다.
+- 컴포넌트는 재사용 가능하도록 설계한다(예: props로 텍스트, 이벤트 핸들러 등 전달).
+- 페이지 파일(`src/pages/`)에서는 컴포넌트들을 조합하여 전체 UI를 구성한다.
+
+### 4. 문서화
+- 새로운 페이지를 추가할 때, 어떤 컴포넌트로 분리했는지 간단한 구조 다이어그램 또는 목록을 남긴다.
+
+---
+
+이 규칙은 [src/pages/BookRegister.tsx](mdc:src/pages/BookRegister.tsx) 및 관련 컴포넌트 구조를 참고할 수 있습니다.

@@ -17,7 +17,8 @@ export enum Locales {
 export enum PageURLs {
   HOME = '/',
   PROFILE = '/profile',
-  SIGN_IN = '/sign-in',
+  SIGN_IN = '/login',
+  BOOK_EXCHANGE = '/book/:id',
   WILD_CARD = '*',
 }
 

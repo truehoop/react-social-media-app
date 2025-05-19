@@ -1,0 +1,113 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Page Features Definition
+
+## 1. Home Page (`src/pages/Home.tsx`)
+- **기본 기능**
+  - 도서 피드 표시
+  - 카테고리별 필터링
+  - 정렬 기능 (최신순, 인기순)
+  - 무한 스크롤
+- **상호작용**
+  - 도서 상세보기
+  - 교환 신청
+  - 좋아요/북마크
+- **UI 요소**
+  - Topbar (검색, 알림, 프로필)
+  - BottomNavigation
+  - CategoryFilter
+  - SortFilter
+
+## 2. Book Register Page (`src/pages/BookRegister.tsx`)
+- **기본 기능**
+  - 도서 정보 입력
+  - 카카오 도서 검색 연동
+  - 이미지 업로드 (최대 3장)
+  - 장르 선택 (최소 1개, 최대 2개)
+- **상호작용**
+  - 도서 검색 결과 선택
+  - 이미지 미리보기/삭제
+  - 장르 선택 다이얼로그
+- **UI 요소**
+  - BookRegisterHeader
+  - BookRegisterForm
+  - BookImageUploader
+  - BookSearchDialog
+
+## 3. Book Exchange Page (`src/pages/BookExchange.tsx`)
+- **기본 기능**
+  - 교환 가능 도서 목록
+  - 교환 신청 관리
+  - 교환 상태 표시
+- **상호작용**
+  - 교환 신청/수락/거절
+  - 교환 상세 정보 확인
+- **UI 요소**
+  - ExchangeHistoryCard
+  - BookCard
+  - StatusBadge
+
+## 4. Profile Page (`src/pages/Profile.tsx`)
+- **기본 기능**
+  - 사용자 정보 표시
+  - 등록한 도서 목록
+  - 교환 내역
+  - 팔로잉/팔로워 관리
+  - 로그아웃 기능
+- **상호작용**
+  - 프로필 편집
+  - 도서 관리
+  - 팔로우/언팔로우
+- **UI 요소**
+  - UserInfo
+  - ProfileBookCard
+  - Following
+  - ProfilePageRightBar
+
+## 5. Login Page (`src/pages/Login.tsx`)
+- **기본 기능**
+  - 로그인 폼
+  - 소셜 로그인
+  - 회원가입 링크
+- **상호작용**
+  - 이메일/비밀번호 입력
+  - 유효성 검사
+  - 로그인 상태 유지
+- **UI 요소**
+  - InputField
+  - SocialLoginButtons
+  - Alert
+
+## 공통 규칙
+1. **컴포넌트 구조**
+   - 각 페이지는 Header, Main Content, Footer 구조 유지
+   - 재사용 가능한 컴포넌트는 shared 폴더에 배치
+   - 페이지별 고유 컴포넌트는 해당 페이지 폴더에 배치
+
+2. **상태 관리**
+   - 전역 상태는 Redux 사용
+   - 페이지 내부 상태는 React hooks 사용
+   - API 통신은 Redux Thunk 사용
+
+3. **에러 처리**
+   - 모든 API 호출에 에러 핸들링 구현
+   - 사용자 친화적인 에러 메시지 표시
+   - 네트워크 오류 시 재시도 로직 구현
+
+4. **반응형 디자인**
+   - 모바일 우선 디자인
+   - Tailwind CSS 사용
+   - MUI 컴포넌트 활용
+
+5. **접근성**
+   - ARIA 레이블 사용
+   - 키보드 네비게이션 지원
+   - 색상 대비 준수
+
+6. **성능 최적화**
+   - 이미지 최적화
+   - 코드 스플리팅
+   - 메모이제이션 활용

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { Common, Languages, PageURLs } from '@helpers/enums/enums';
 import { AppState } from '@helpers/types/state';
 import { sessionStorageUtil } from '@helpers/utils/storageFunctions';

@@ -1,30 +1,43 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, Store } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import APIRequestReducer from '@helpers/reducers/APIRequestReducer';
+
 import appReducer from '@helpers/reducers/appReducer';
+import { APIRequestState } from '@helpers/types/state';
 
 declare global {
   interface Window {
-    store: any;
-    Cypress: any;
+    store: Store<RootState>;
+    Cypress: {
+      env: (key: string) => string;
+      log: (message: string) => void;
+      [key: string]: unknown;
+    };
   }
 }
 
-export const store = configureStore({
-  reducer: {
-    app: appReducer,
-    APICalls: APIRequestReducer,
-  },
-});
+export type RootState = {
+  [x: string]: any;
+  app: {
+    isMobileNavbarActive: boolean;
+    language: string;
+    isLoggedIn: boolean;
+    lastVisitedURL: string;
+    selectedLanguage: string;
+  };
+};
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch = (): AppDispatch => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
+const store = configureStore({
+  reducer: {
+    app: appReducer,
+  },
+});
 if (window.Cypress) {
-  window.store = store;
+  window.store = store as unknown as Store<RootState>;
 }
+
+export default store;

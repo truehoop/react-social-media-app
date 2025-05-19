@@ -1,0 +1,110 @@
+{
+  "pages": {
+    "login": {
+      "welcome": "Welcome!",
+      "email": "Your Email",
+      "password": "Password",
+      "or": "or"
+    },
+    "wildCard": {
+      "404": "404",
+      "header": "Page Not Found",
+      "message": "Sorry, the page you are looking for could not be found.",
+      "buttonMessage": "Return Home"
+    }
+  },
+  "button": {
+    "signIn": "Sign in to your account",
+    "share": "Share",
+    "showMore": "Show More"
+  },
+  "logo": {
+    "social": "React Social"
+  },
+  "components": {
+    "post": {
+      "people": "people",
+      "likeThis": "like this!",
+      "comments": "Comments"
+    },
+    "rightbar": {
+      "and": "and",
+      "others": "others",
+      "birthdayMessage": "celebrating their birthday today!",
+      "onlineFriends": "Online Friends",
+      "userInformation": "User Information",
+      "userFollowings": "Your Followings"
+    },
+    "share": {
+      "photoVideo": "Photo or Video",
+      "tag": "Tag",
+      "location": "Location",
+      "feelings": "Feelings",
+      "status": "What is on your mind?",
+      "share": "Share"
+    },
+    "sidebar": {
+      "feed": "Feed",
+      "chats": "Chats",
+      "videos": "Videos",
+      "groups": "Groups",
+      "bookmarks": "Bookmarks",
+      "questions": "Questions",
+      "jobs": "Jobs",
+      "events": "Events",
+      "courses": "Courses",
+      "closeFriends": "Close Friends"
+    },
+    "topbar": {
+      "timeLine": "Timeline",
+      "logOut": "Log Out",
+      "search": "Search for a friend",
+      "popover": {
+        "friendRequests": "Friend Requests",
+        "noMutualFriend": "No mutual friend",
+        "mutualFriend": "mutual friend",
+        "noFriendRequest": "No Friend Request",
+        "userSettings": "User Settings"
+      }
+    },
+    "alert": {
+      "title": {
+        "icon": "Icon",
+        "close": "Close"
+      },
+      "success": "Success"
+    },
+    "tooltip": {
+      "email": "Email field accept all emails fits with validation rules.",
+      "password": "Password field accepts values fits with validation rules."
+    }
+  },
+  "a11y": {
+    "closeFriendProfilePicture": "Close friend profile picture",
+    "followedCompany": "Followed company",
+    "birthDayPresentBox": "Birthday present box",
+    "advertisement": "Advertisement",
+    "postOwnerImage": "Post owners image",
+    "postImage": "Post image",
+    "likePost": "Like post",
+    "favoritePost": "Favorite post",
+    "currentUserPicture": "Current user picture",
+    "currentUserBackgroundImage": "Current user background image",
+    "goToHome": "Go to Homepage",
+    "goToProfile": "Go to Profile page",
+    "goToFeed": "go to feed",
+    "goToChats": "go to chats",
+    "goToVideos": "go to videos",
+    "goToGroups": "go to groups",
+    "goToBookMarks": "go to bookmarks",
+    "goToQuestions": "go to questions",
+    "goToJobs": "go to jobs",
+    "goToEvents": "go to events"
+  },
+  "home": {
+    "title": "도서 교환 홈",
+    "filter": "장르별 필터",
+    "sort": "정렬 기준",
+    "noBooks": "도서를 찾을 수 없습니다."
+  }
+}

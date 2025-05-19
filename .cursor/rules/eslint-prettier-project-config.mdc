@@ -1,0 +1,52 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 프로젝트 ESLint & Prettier 설정 준수 가이드
+
+## 목적
+이 프로젝트에서 소스코드를 제안하거나 수정할 때는 반드시 실제 프로젝트의 Prettier와 ESLint 설정을 참고하여, 해당 규칙을 100% 준수해야 합니다.
+
+## 적용 대상 설정 파일
+- [.prettierrc](mdc:.prettierrc)
+- [.eslintrc.js](mdc:.eslintrc.js)
+- [tsconfig.json](mdc:tsconfig.json)
+
+## 주요 Prettier 규칙
+- singleQuote: true (홑따옴표 사용)
+- trailingComma: 'all' (모든 곳에 쉼표)
+- bracketSpacing: true (중괄호 내 띄어쓰기)
+- singleAttributePerLine: true (JSX에서 props 한 줄에 하나)
+- printWidth: 140 (최대 줄 길이)
+- arrowParens: 'always' (화살표 함수 괄호 항상 사용)
+- tabWidth: 2 (2칸 들여쓰기)
+- endOfLine: 'auto' (자동 줄바꿈)
+
+## 주요 ESLint 규칙
+- import/order: 다음 순서로 정렬
+  1. @mui/icons-material (알파벳 순)
+  2. @mui/material (알파벳 순)
+  3. React (builtin)
+  4. 내부 컴포넌트 (@components)
+- prettier/prettier: Prettier 규칙 위반 시 에러
+- no-console: warn (console 사용 시 경고)
+- 기타 typescript, import, jest 관련 규칙 등 [.eslintrc.js](mdc:.eslintrc.js) 참고
+
+## 코드 제안/수정 시 반드시 지켜야 할 사항
+- import 순서, props/콜백/JSX 줄바꿈, 쉼표, 들여쓰기 등 모든 부분에서 위 규칙을 100% 준수
+- 소스 제안 전후로 prettier/eslint 포맷팅을 적용한 결과와 동일해야 함
+- 규칙 위반 시 코드 제안/수정하지 않음
+
+---
+
+이 규칙은 실제 프로젝트의 [.prettierrc](mdc:.prettierrc) 및 [.eslintrc.js](mdc:.eslintrc.js) 파일을 참고하여 항상 최신 상태로 유지해야 합니다.
+
+# 커서룰: 코드 스타일 및 린트 자동 적용
+- import 순서, props/콜백/JSX 줄바꿈, 파일 끝 줄바꿈, 들여쓰기 등 모든 스타일은 prettier/eslint 자동 포맷 결과와 동일해야 한다.
+
+# 코드 제안/수정 수락 시 자동 포맷/린트
+- 코드 제안/수정이 수락된 후에는 반드시 아래 명령어가 자동 실행되어야 한다.
+  npx prettier --write .
+  npx eslint --fix .
+- 이 명령어 실행 결과가 실제 적용된 코드로 간주한다.

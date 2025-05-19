@@ -12,6 +12,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { useTranslation } from 'react-i18next';
+
 import { useAppSelector } from '@base/store';
 import NavbarMenuElement from '@components/shared/NavbarMenuElement';
 import ProfileLink from '@components/shared/ProfileLink';
@@ -131,7 +132,7 @@ export default function Sidebar() {
       >
         <ul className={`${isMobile ? '' : 'mb-8'} p-0 m-0 list-none`}>
           {closeFriends
-            ? closeFriends.map((friend) => (
+            ? closeFriends.map((friend: any) => (
                 <ProfileLink
                   key={`${friend.picture?.large} ${Math.random().toString()}`}
                   user={friend}

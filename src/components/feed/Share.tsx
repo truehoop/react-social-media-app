@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { useTranslation } from 'react-i18next';
+
 import { useAppDispatch, useAppSelector } from '@base/store';
 import Icon from '@components/shared/Icon';
 import { setRandomPosts } from '@helpers/reducers/APIRequestReducer';

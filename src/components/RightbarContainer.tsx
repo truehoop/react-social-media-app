@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import React from 'react';
 import { isMobile } from 'react-device-detect';
+
 import HomePageRightBar from '@components/HomePageRightBar';
 import ProfilePageRightBar from '@components/profile/ProfilePageRightBar';
 

@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import { t } from 'i18next';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import { useAppDispatch, useAppSelector } from '@base/store';
 import ProfileLink from '@components/shared/ProfileLink';
 import LanguageSelectorPopover from '@components/topbar/LanguageSelectorPopover';
@@ -49,11 +50,11 @@ export default function ProfileSettingsPopover() {
       />
 
       <TopbarPopover
-        open={false}
-        title={''}
-        icon={<SelectLanguage currentLang={selectedLanguage} />}
-        children={<LanguageSelectorPopover />}
-      />
+        title={t('components.topbar.language')}
+        icon={<SelectLanguage currentLang={selectedLanguage as Languages} />}
+      >
+        <LanguageSelectorPopover />
+      </TopbarPopover>
 
       <hr className="border-t-1 border-[rgb(236 239 241)]"></hr>
 

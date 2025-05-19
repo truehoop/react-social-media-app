@@ -3,6 +3,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Box } from '@mui/system';
 import { t } from 'i18next';
 import React from 'react';
+
 import { useAppSelector } from '@base/store';
 import { selectFriendRequests } from '@helpers/selectors/APIRequestSelector';
 
@@ -32,7 +33,7 @@ export default function FriendRequest() {
         flexDirection="column"
       >
         {friendRequests.length > 0 ? (
-          friendRequests.map((friend) => {
+          friendRequests.map((friend: any) => {
             const mutualFriendCount = Math.floor(Math.random() * 13);
             return (
               <Box

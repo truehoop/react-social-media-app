@@ -1,4 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
 import { AppDispatch, RootState } from '@base/store';
 import { APIMethods, Common } from '@helpers/enums/enums';
 import { GenerateUser, GenerateUserAPIResponse, RandomPost, RandomUser, RandomUserFilter } from '@helpers/types/api';

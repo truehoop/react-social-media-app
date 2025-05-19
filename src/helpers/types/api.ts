@@ -106,3 +106,24 @@ export interface GeneratePostAPIResponse {
   page: number;
   limit: number;
 }
+
+export interface BookInfo {
+  title: string;
+  author: string;
+  thumbnail: string;
+  isbn: string;
+  authors: string[];
+  contents: string;
+  datetime: string;
+  price: number;
+  publisher: string;
+  sale_price: number;
+  status: string;
+  translators: string[];
+  url: string;
+}
+
+export interface BookSearchResponse {
+  total: number;
+  books: BookInfo[];
+}

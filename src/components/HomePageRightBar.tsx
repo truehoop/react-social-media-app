@@ -1,13 +1,9 @@
 import { Box } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from '@base/store';
-import ProfileLink from '@components/shared/ProfileLink';
-import { selectOnlineFriends } from '@helpers/selectors/APIRequestSelector';
 
 export default function HomePageRightBar() {
   const { t } = useTranslation();
-  const onlineFriends = useAppSelector(selectOnlineFriends);
 
   return (
     <Box
@@ -48,26 +44,6 @@ export default function HomePageRightBar() {
         aria-label={t('a11y.advertisement')}
         alt={t('a11y.advertisement')}
       />
-
-      <Box
-        display="flex"
-        flexDirection="column"
-        className="w-full"
-      >
-        <h4 className="text-lg font-medium mb-5">{t('components.rightbar.onlineFriends')}</h4>
-
-        <ul>
-          {onlineFriends
-            ? onlineFriends.map((friend) => (
-                <ProfileLink
-                  key={`${friend.picture?.large} ${Math.random().toString()}`}
-                  user={friend}
-                  isOnline={true}
-                />
-              ))
-            : null}
-        </ul>
-      </Box>
     </Box>
   );
 }

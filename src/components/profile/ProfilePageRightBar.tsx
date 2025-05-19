@@ -1,80 +1,65 @@
-import { Box } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+
+import { useAppDispatch } from '@base/store';
 import Following from '@components/profile/Following';
 import UserInfo, { ProfileDetailRawDataUnionType } from '@components/profile/UserInfo';
 import { companies } from '@helpers/api/companies';
 import { usersProfileDetails } from '@helpers/api/profileDetails';
-import { users } from '@helpers/api/users';
 
 export default function ProfilePageRightBar() {
   const { t } = useTranslation();
-  const currentUser = users.filter((user) => user.currentUser)[0];
-  const { following } = currentUser;
   const currentProfileDetail = usersProfileDetails[Math.floor(Math.random() * usersProfileDetails.length)];
-  const followedCompanies = companies.filter((company) => following?.includes(company.id));
+  const followedCompanies = companies.filter((company) => company.id > 0);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleCompanyClick = (companyId: number) => {
+    navigate(`/company/${companyId}`);
+  };
+
   const profileDetails = Object.keys(currentProfileDetail) as ProfileDetailRawDataUnionType[];
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      gap={3}
-    >
-      <Box
-        display="flex"
-        flexDirection="column"
-        className="w-full"
-      >
-        <h2 className="text-lg font-medium mb-5">{t('components.rightbar.userInformation')}</h2>
-
-        <Box mb={3}>
-          {profileDetails.map((profileDetailKey, index) => (
-            <UserInfo
-              key={profileDetailKey}
-              currentProfileKey={profileDetailKey}
-              currentProfileValue={currentProfileDetail[profileDetailKey]}
-              profileDetail={profileDetails}
-              profiledetailIndex={index}
-            />
-          ))}
-        </Box>
-      </Box>
-
-      <Box
-        display="flex"
-        flexDirection="column"
-        className="w-full"
-        mb={5}
-      >
-        <h2 className="text-lg	font-medium">{t('components.rightbar.userFollowings')}</h2>
-
-        <Box
-          display="flex"
-          flexDirection="row"
-          flexWrap="wrap"
-          gap={3}
-          mb={3}
-        >
-          {followedCompanies.map((company) => {
-            return (
-              <Following
-                key={company.id}
-                company={company}
-              ></Following>
-            );
-          })}
-        </Box>
-
+    <div className="rightbar">
+      <div className="rightbarWrapper">
+        <div className="birthdayContainer">
+          <img
+            className="birthdayImg"
+            src="assets/gift.png"
+            alt=""
+          />
+          <span className="birthdayText">
+            <b>Pola Foster</b> and <b>3 other friends</b> have a birthday today.
+          </span>
+        </div>
         <img
-          loading="lazy"
-          src="/assets/ad.webp"
-          width="100%"
-          height="100%"
-          aria-label={t('a11y.advertisement')}
-          alt={t('a11y.advertisement')}
+          className="rightbarAd"
+          src="assets/ad.png"
+          alt=""
         />
-      </Box>
-    </Box>
+        <h4 className="rightbarTitle">Online Friends</h4>
+        <ul className="rightbarFriendList">
+          {followedCompanies.map((company) => (
+            <li
+              key={company.id}
+              className="rightbarFriend"
+              onClick={() => handleCompanyClick(company.id)}
+            >
+              <div className="rightbarProfileImgContainer">
+                <img
+                  className="rightbarProfileImg"
+                  src={company.logo}
+                  alt=""
+                />
+                <span className="rightbarOnline"></span>
+              </div>
+              <span className="rightbarUsername">{company.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }

@@ -100,5 +100,11 @@
     "goToQuestions": "go to questions",
     "goToJobs": "go to jobs",
     "goToEvents": "go to events"
+  },
+  "home": {
+    "title": "Book Exchange Home",
+    "filter": "Filter by Genre",
+    "sort": "Sort by",
+    "noBooks": "No books found."
   }
 }

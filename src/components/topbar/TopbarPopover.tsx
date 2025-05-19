@@ -1,15 +1,15 @@
 import { Box } from '@mui/material';
-import Popover, { PopoverProps } from '@mui/material/Popover';
+import Popover from '@mui/material/Popover';
 import React from 'react';
 
-interface TopbarPopoverProps extends PopoverProps {
+interface TopbarPopoverProps {
   title: string;
   icon: React.ReactNode;
   children: React.ReactNode;
 }
 
 export default function TopbarPopover({ title, icon, children }: TopbarPopoverProps) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   return (
@@ -17,7 +17,7 @@ export default function TopbarPopover({ title, icon, children }: TopbarPopoverPr
       <div
         color="primary"
         onClick={(event) => {
-          setAnchorEl(event.currentTarget as any);
+          setAnchorEl(event.currentTarget as HTMLElement);
         }}
         title={title}
       >

@@ -1,8 +1,9 @@
 import { Box } from '@mui/material';
 import { t } from 'i18next';
 import React from 'react';
+
 import { useAppDispatch } from '@base/store';
-import { setAlertMessageAsRemoved } from '@helpers/reducers/APIRequestReducer';
+// import { setAlertMessageAsRemoved } from '@helpers/reducers/APIRequestReducer';
 import { AlertElement } from '@helpers/types/general';
 import { alertSVG, alertCloseButtonSVG } from '@helpers/utils/SVG';
 
@@ -32,8 +33,7 @@ export default function Alert({ identifier, icon, message, canBeClosed = true }:
             title={t('components.alert.title.close')}
             onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
               event.preventDefault();
-
-              dispatch(setAlertMessageAsRemoved(identifier));
+              // Alert close functionality removed
             }}
           >
             {alertCloseButtonSVG}

@@ -1,9 +1,9 @@
 import { t } from 'i18next';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '@base/store';
+
+// import { setSelectedUser } from '@helpers/reducers/APIRequestReducer';
 import { PageURLs } from '@helpers/enums/enums';
-import { setSelectedUser } from '@helpers/reducers/APIRequestReducer';
 import { RandomUser } from '@helpers/types/api';
 import { formatTextValue } from '@helpers/utils/commonFunctions';
 
@@ -14,14 +14,15 @@ interface ProfileLinkProps {
 }
 
 export default function ProfileLink({ user, isOnline = false, isLoggedInUser = false }: ProfileLinkProps) {
-  const dispatch = useAppDispatch();
   const { name, picture } = user;
 
   const handleOnClick = (user: RandomUser) => {
-    dispatch(setSelectedUser(user));
+    // dispatch(setSelectedUser(user));
   };
 
-  const handleOnClickLoggedInUser = () => dispatch(setSelectedUser({}));
+  const handleOnClickLoggedInUser = () => {
+    // dispatch(setSelectedUser({}));
+  };
 
   return picture && name ? (
     isLoggedInUser ? (
