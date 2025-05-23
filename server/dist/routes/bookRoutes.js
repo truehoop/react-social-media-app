@@ -114,28 +114,12 @@ const router = express_1.default.Router();
  *           enum: [교환가능, 교환예약, 교환완료]
  *         description: 교환 상태
  *       - in: query
- *         name: lat
- *         schema:
- *           type: number
- *         description: 현재 위치 위도
- *       - in: query
- *         name: lng
- *         schema:
- *           type: number
- *         description: 현재 위치 경도
- *       - in: query
- *         name: radius
- *         schema:
- *           type: number
- *           default: 5
- *         description: 검색 반경 (km)
- *       - in: query
  *         name: sort
  *         schema:
  *           type: string
- *           enum: [date, distance]
+ *           enum: [date]
  *           default: date
- *         description: "정렬 기준 (date: 등록순, distance: 거리순)"
+ *         description: "정렬 기준 (date: 등록순)"
  *     responses:
  *       200:
  *         description: 검색된 도서 목록

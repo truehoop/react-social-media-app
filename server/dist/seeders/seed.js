@@ -7,9 +7,10 @@ const User_1 = require("../models/User");
 const Book_1 = require("../models/Book");
 const RegionInfo_1 = require("../models/RegionInfo");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const database_1 = require("../config/database");
 const sampleRegions = [
     {
-        type: '법정동',
+        type: 'H',
         code: '1111010100',
         address: '서울특별시 종로구 청운동',
         region1: '서울특별시',
@@ -17,7 +18,7 @@ const sampleRegions = [
         region3: '청운동',
     },
     {
-        type: '법정동',
+        type: 'H',
         code: '4113510300',
         address: '경기도 성남시 분당구 정자동',
         region1: '경기도',
@@ -25,7 +26,7 @@ const sampleRegions = [
         region3: '정자동',
     },
     {
-        type: '법정동',
+        type: 'H',
         code: '2611051000',
         address: '부산광역시 해운대구 우동',
         region1: '부산광역시',
@@ -33,7 +34,7 @@ const sampleRegions = [
         region3: '우동',
     },
     {
-        type: '법정동',
+        type: 'H',
         code: '3017010100',
         address: '대전광역시 유성구 봉명동',
         region1: '대전광역시',
@@ -41,7 +42,7 @@ const sampleRegions = [
         region3: '봉명동',
     },
     {
-        type: '법정동',
+        type: 'H',
         code: '2714010100',
         address: '대구광역시 수성구 범어동',
         region1: '대구광역시',
@@ -51,7 +52,30 @@ const sampleRegions = [
 ];
 const seedData = async () => {
     try {
-        // Create sample users
+        // 데이터베이스 연결 확인
+        await database_1.sequelize.authenticate();
+        console.log('Database connection has been established successfully.');
+        // 기존 데이터 삭제
+        await Book_1.Book.destroy({ where: {} });
+        await RegionInfo_1.RegionInfo.destroy({ where: {} });
+        await User_1.User.destroy({ where: {} });
+        console.log('Existing data has been cleared.');
+        // 테스트용 유저 생성
+        const testUser1 = await User_1.User.create({
+            name: 'Test User',
+            email: 'test@example.com',
+            password: await bcryptjs_1.default.hash('password123', 10),
+            rating: 0,
+            provider: 'local'
+        });
+        const testUser2 = await User_1.User.create({
+            name: 'Test User 2',
+            email: 'test2@example.com',
+            password: await bcryptjs_1.default.hash('password123', 10),
+            rating: 0,
+            provider: 'local'
+        });
+        // 일반 유저 생성
         const users = await User_1.User.bulkCreate([
             {
                 name: '홍길동',
@@ -73,9 +97,69 @@ const seedData = async () => {
                 password: await bcryptjs_1.default.hash('password123', 10),
                 rating: 0,
                 provider: 'local'
+            },
+            {
+                name: '이한상',
+                email: 'user@example.com',
+                password: await bcryptjs_1.default.hash('string', 10),
+                rating: 0,
+                provider: 'local'
             }
         ]);
-        // Create sample books
+        // region_infos 생성 (테스트 유저)
+        for (const user of [testUser1, testUser2]) {
+            const selectedRegions = sampleRegions
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 2);
+            await RegionInfo_1.RegionInfo.bulkCreate(selectedRegions.map(region => (Object.assign(Object.assign({}, region), { userId: user.id, createdAt: new Date(), updatedAt: new Date() }))));
+        }
+        // region_infos 생성 (일반 유저)
+        for (const user of users) {
+            const selectedRegions = sampleRegions
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 2);
+            await RegionInfo_1.RegionInfo.bulkCreate(selectedRegions.map(region => (Object.assign(Object.assign({}, region), { userId: user.id, createdAt: new Date(), updatedAt: new Date() }))));
+        }
+        // Book 생성 (테스트 유저)
+        await Book_1.Book.bulkCreate([
+            {
+                title: 'Test Book 1',
+                image: 'https://example.com/test1.jpg',
+                genres: ['테스트', '소설'],
+                condition: '최상',
+                status: '교환가능',
+                registeredDate: new Date(),
+                geolocation: { lat: 37.5665, lng: 126.9780 },
+                regionInfo: [{
+                        type: 'H',
+                        code: sampleRegions[0].code,
+                        address: sampleRegions[0].address,
+                        region1: sampleRegions[0].region1,
+                        region2: sampleRegions[0].region2,
+                        region3: sampleRegions[0].region3,
+                    }],
+                ownerId: testUser1.id,
+            },
+            {
+                title: 'Test Book 2',
+                image: 'https://example.com/test2.jpg',
+                genres: ['테스트', 'SF'],
+                condition: '상',
+                status: '교환가능',
+                registeredDate: new Date(),
+                geolocation: { lat: 37.5665, lng: 126.9780 },
+                regionInfo: [{
+                        type: 'H',
+                        code: sampleRegions[1].code,
+                        address: sampleRegions[1].address,
+                        region1: sampleRegions[1].region1,
+                        region2: sampleRegions[1].region2,
+                        region3: sampleRegions[1].region3,
+                    }],
+                ownerId: testUser2.id,
+            }
+        ]);
+        // Book 생성 (일반 유저)
         await Book_1.Book.bulkCreate([
             {
                 title: '해리포터와 마법사의 돌',
@@ -84,20 +168,15 @@ const seedData = async () => {
                 condition: '최상',
                 status: '교환가능',
                 registeredDate: new Date(),
-                geolocation: {
-                    lat: 37.5665,
-                    lng: 126.9780,
-                },
-                regionInfo: [
-                    {
-                        regionType: 'H',
-                        code: '1100000000',
-                        addressName: '서울특별시',
-                        region1: '서울특별시',
-                        region2: '',
-                        region3: '',
-                    },
-                ],
+                geolocation: { lat: 37.5665, lng: 126.9780 },
+                regionInfo: [{
+                        type: 'H',
+                        code: sampleRegions[0].code,
+                        address: sampleRegions[0].address,
+                        region1: sampleRegions[0].region1,
+                        region2: sampleRegions[0].region2,
+                        region3: sampleRegions[0].region3,
+                    }],
                 ownerId: users[0].id,
             },
             {
@@ -107,20 +186,15 @@ const seedData = async () => {
                 condition: '상',
                 status: '교환가능',
                 registeredDate: new Date(),
-                geolocation: {
-                    lat: 37.5665,
-                    lng: 126.9780,
-                },
-                regionInfo: [
-                    {
-                        regionType: 'H',
-                        code: '1100000000',
-                        addressName: '서울특별시',
-                        region1: '서울특별시',
-                        region2: '',
-                        region3: '',
-                    },
-                ],
+                geolocation: { lat: 37.5665, lng: 126.9780 },
+                regionInfo: [{
+                        type: 'H',
+                        code: sampleRegions[1].code,
+                        address: sampleRegions[1].address,
+                        region1: sampleRegions[1].region1,
+                        region2: sampleRegions[1].region2,
+                        region3: sampleRegions[1].region3,
+                    }],
                 ownerId: users[1].id,
             },
             {
@@ -130,20 +204,15 @@ const seedData = async () => {
                 condition: '중',
                 status: '교환예약',
                 registeredDate: new Date(),
-                geolocation: {
-                    lat: 37.5665,
-                    lng: 126.9780,
-                },
-                regionInfo: [
-                    {
-                        regionType: 'H',
-                        code: '1100000000',
-                        addressName: '서울특별시',
-                        region1: '서울특별시',
-                        region2: '',
-                        region3: '',
-                    },
-                ],
+                geolocation: { lat: 37.5665, lng: 126.9780 },
+                regionInfo: [{
+                        type: 'H',
+                        code: sampleRegions[2].code,
+                        address: sampleRegions[2].address,
+                        region1: sampleRegions[2].region1,
+                        region2: sampleRegions[2].region2,
+                        region3: sampleRegions[2].region3,
+                    }],
                 ownerId: users[2].id,
             },
             {
@@ -153,42 +222,35 @@ const seedData = async () => {
                 condition: '하',
                 status: '교환완료',
                 registeredDate: new Date(),
-                geolocation: {
-                    lat: 37.5665,
-                    lng: 126.9780,
-                },
-                regionInfo: [
-                    {
-                        regionType: 'H',
-                        code: '1100000000',
-                        addressName: '서울특별시',
-                        region1: '서울특별시',
-                        region2: '',
-                        region3: '',
-                    },
-                ],
-                ownerId: users[0].id,
+                geolocation: { lat: 37.5665, lng: 126.9780 },
+                regionInfo: [{
+                        type: 'H',
+                        code: sampleRegions[3].code,
+                        address: sampleRegions[3].address,
+                        region1: sampleRegions[3].region1,
+                        region2: sampleRegions[3].region2,
+                        region3: sampleRegions[3].region3,
+                    }],
+                ownerId: users[3].id,
             },
         ]);
-        // Create region_infos for each user
-        for (const user of users) {
-            // Skip if user already has 2 or more region_infos
-            const existingRegionInfos = await RegionInfo_1.RegionInfo.count({
-                where: { userId: user.id }
-            });
-            if (existingRegionInfos >= 2)
-                continue;
-            // Randomly select 2 regions for this user
-            const selectedRegions = sampleRegions
-                .sort(() => Math.random() - 0.5)
-                .slice(0, 2);
-            // Create region_infos
-            await RegionInfo_1.RegionInfo.bulkCreate(selectedRegions.map(region => (Object.assign(Object.assign({}, region), { userId: user.id, createdAt: new Date(), updatedAt: new Date() }))));
-        }
         console.log('Sample data has been seeded successfully!');
     }
     catch (error) {
         console.error('Error seeding data:', error);
+        process.exit(1);
     }
 };
+// 실행
+if (require.main === module) {
+    seedData()
+        .then(() => {
+        console.log('Seeding completed successfully.');
+        process.exit(0);
+    })
+        .catch((error) => {
+        console.error('Seeding failed:', error);
+        process.exit(1);
+    });
+}
 exports.default = seedData;

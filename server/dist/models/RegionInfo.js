@@ -58,6 +58,7 @@ __decorate([
     __metadata("design:type", String)
 ], RegionInfo.prototype, "region3", void 0);
 __decorate([
+    (0, sequelize_typescript_1.ForeignKey)(() => User_1.User),
     (0, sequelize_typescript_1.Column)({
         type: sequelize_typescript_1.DataType.INTEGER,
         allowNull: false,
@@ -65,7 +66,7 @@ __decorate([
     __metadata("design:type", Number)
 ], RegionInfo.prototype, "userId", void 0);
 __decorate([
-    (0, sequelize_typescript_1.BelongsTo)(() => User_1.User),
+    (0, sequelize_typescript_1.BelongsTo)(() => User_1.User, { constraints: false }),
     __metadata("design:type", User_1.User)
 ], RegionInfo.prototype, "user", void 0);
 exports.RegionInfo = RegionInfo = __decorate([

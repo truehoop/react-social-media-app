@@ -6,11 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const app_1 = __importDefault(require("../app"));
 const User_1 = require("../models/User");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const auth_1 = require("../config/auth");
 describe('Auth Controller Tests', () => {
-    beforeEach(async () => {
-        // 테스트 전 데이터베이스 초기화
-        await User_1.User.destroy({ where: {} });
-    });
     describe('POST /api/auth/google', () => {
         const mockGoogleCredential = {
             credential: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRlc3QgVXNlciIsImVtYWlsIjoidGVzdEBleGFtcGxlLmNvbSIsInBpY3R1cmUiOiJodHRwczovL2V4YW1wbGUuY29tL3Byb2ZpbGUuanBnIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
@@ -26,17 +24,16 @@ describe('Auth Controller Tests', () => {
                 name: 'Test User',
                 provider: 'google'
             });
-            // 데이터베이스에 사용자가 생성되었는지 확인
-            const user = await User_1.User.findOne({ where: { email: 'test@example.com' } });
-            expect(user).toBeTruthy();
-            expect(user === null || user === void 0 ? void 0 : user.provider).toBe('google');
+            // Verify token
+            const decoded = jsonwebtoken_1.default.verify(response.body.token, auth_1.JWT_SECRET);
+            expect(decoded).toHaveProperty('id');
+            expect(decoded).toHaveProperty('email', 'test@example.com');
         });
         it('should return error for existing user with different provider', async () => {
-            // 먼저 다른 provider로 사용자 생성
+            // Create a user with local provider
             await User_1.User.create({
-                id: 'local123',
-                email: 'test@example.com',
                 name: 'Test User',
+                email: 'test@example.com',
                 provider: 'local',
                 rating: 0
             });
@@ -45,6 +42,13 @@ describe('Auth Controller Tests', () => {
                 .send(mockGoogleCredential);
             expect(response.status).toBe(400);
             expect(response.body.message).toBe('이미 다른 방식으로 가입된 이메일입니다.');
+        });
+        it('should return error for invalid credential', async () => {
+            const response = await (0, supertest_1.default)(app_1.default)
+                .post('/api/auth/google')
+                .send({ credential: 'invalid-token' });
+            expect(response.status).toBe(400);
+            expect(response.body.message).toBe('Invalid Google credential');
         });
     });
     describe('POST /api/auth/kakao', () => {
@@ -71,10 +75,10 @@ describe('Auth Controller Tests', () => {
                 name: 'Test User',
                 provider: 'kakao'
             });
-            // 데이터베이스에 사용자가 생성되었는지 확인
-            const user = await User_1.User.findOne({ where: { email: 'test@example.com' } });
-            expect(user).toBeTruthy();
-            expect(user === null || user === void 0 ? void 0 : user.provider).toBe('kakao');
+            // Verify token
+            const decoded = jsonwebtoken_1.default.verify(response.body.token, auth_1.JWT_SECRET);
+            expect(decoded).toHaveProperty('id');
+            expect(decoded).toHaveProperty('email', 'test@example.com');
         });
         it('should return error when email is not provided', async () => {
             const response = await (0, supertest_1.default)(app_1.default)
@@ -94,11 +98,10 @@ describe('Auth Controller Tests', () => {
             expect(response.body.message).toBe('이메일 정보 제공에 동의해주세요.');
         });
         it('should return error for existing user with different provider', async () => {
-            // 먼저 다른 provider로 사용자 생성
+            // Create a user with local provider
             await User_1.User.create({
-                id: 'local123',
-                email: 'test@example.com',
                 name: 'Test User',
+                email: 'test@example.com',
                 provider: 'local',
                 rating: 0
             });
@@ -107,6 +110,13 @@ describe('Auth Controller Tests', () => {
                 .send(mockKakaoData);
             expect(response.status).toBe(400);
             expect(response.body.message).toBe('이미 다른 방식으로 가입된 이메일입니다.');
+        });
+        it('should return error for invalid kakao data', async () => {
+            const response = await (0, supertest_1.default)(app_1.default)
+                .post('/api/auth/kakao')
+                .send({ kakaoData: {} });
+            expect(response.status).toBe(400);
+            expect(response.body.message).toBe('Invalid Kakao data');
         });
     });
 });

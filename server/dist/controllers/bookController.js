@@ -8,8 +8,7 @@ const database_1 = require("../config/database");
 // 도서 검색 및 조회 (필터링, 정렬 포함)
 const getBooks = async (req, res) => {
     try {
-        const { genres, condition, status, lat, lng, radius = 5, // 기본 반경 5km
-        sort = 'date' // 기본값은 등록순
+        const { genres, condition, status, sort = 'date' // 기본값은 등록순
          } = req.query;
         const where = {};
         // 장르 필터
@@ -30,37 +29,10 @@ const getBooks = async (req, res) => {
         if (status) {
             where.status = status;
         }
-        // 위치 기반 검색
-        if (lat && lng) {
-            const latNum = parseFloat(lat);
-            const lngNum = parseFloat(lng);
-            const radiusNum = parseFloat(radius);
-            // PostgreSQL의 PostGIS 확장을 사용한 위치 검색
-            where.geolocation = {
-                [sequelize_1.Op.and]: [
-                    database_1.sequelize.literal(`ST_DWithin(
-            ST_SetSRID(ST_MakePoint(geolocation->>'lng', geolocation->>'lat'), 4326),
-            ST_SetSRID(ST_MakePoint(${lngNum}, ${latNum}), 4326),
-            ${radiusNum * 1000}
-          )`)
-                ]
-            };
-        }
         // 정렬 옵션 설정
         let order = [];
-        if (sort === 'distance' && lat && lng) {
-            // 거리순 정렬 (PostGIS 사용)
-            order.push([
-                database_1.sequelize.literal(`ST_Distance(
-          ST_SetSRID(ST_MakePoint(geolocation->>'lng', geolocation->>'lat'), 4326),
-          ST_SetSRID(ST_MakePoint(${lng}, ${lat}), 4326)
-        )`)
-            ]);
-        }
-        else {
-            // 등록순 정렬 (기본값)
-            order.push(['registeredDate', 'DESC']);
-        }
+        // 등록순 정렬 (기본값)
+        order.push(['registeredDate', 'DESC']);
         const books = await Book_1.Book.findAll({
             where,
             order,

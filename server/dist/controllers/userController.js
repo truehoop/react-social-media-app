@@ -44,6 +44,7 @@ const register = async (req, res) => {
 exports.register = register;
 // 로그인
 const login = async (req, res) => {
+    var _a;
     try {
         const { email, password } = req.body;
         // 사용자 찾기
@@ -52,7 +53,7 @@ const login = async (req, res) => {
             return res.status(401).json({ message: '이메일 또는 비밀번호가 올바르지 않습니다.' });
         }
         // 비밀번호 확인
-        const isValidPassword = await bcryptjs_1.default.compare(password, user.password);
+        const isValidPassword = await bcryptjs_1.default.compare(password, (_a = user.password) !== null && _a !== void 0 ? _a : '');
         if (!isValidPassword) {
             return res.status(401).json({ message: '이메일 또는 비밀번호가 올바르지 않습니다.' });
         }
