@@ -17,9 +17,15 @@
     "cypress:open": "cypress open"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx,scss}": ["prettier --write"],
-    "src/**/*.{ts,tsx}": ["eslint --cache --fix"],
-    "src/**/*.scss": ["stylelint --fix"]
+    "src/**/*.{ts,tsx,scss}": [
+      "prettier --write"
+    ],
+    "src/**/*.{ts,tsx}": [
+      "eslint --cache --fix"
+    ],
+    "src/**/*.scss": [
+      "stylelint --fix"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",
@@ -43,9 +49,9 @@
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "babel-jest": "^29.7.0",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.1",
+    "babel-jest": "^29.7.0",
     "craco-alias": "^3.0.1",
     "cypress": "^13.1.0",
     "eslint": "^8.44.0",
@@ -88,10 +94,21 @@
     "yup": "^1.2.0"
   },
   "eslintConfig": {
-    "extends": ["react-app", "react-app/jest"]
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
-    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

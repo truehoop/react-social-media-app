@@ -131,7 +131,12 @@ export default function BookExchange() {
 
       {/* Bottom Button */}
       <Box className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t">
-        <button className="w-full bg-green-700 text-white py-3 rounded-lg font-medium">교환 신청하기</button>
+        <button
+          className="w-full bg-green-700 text-white py-3 rounded-lg font-medium"
+          onClick={() => navigate('/exchange-request', { state: { book } })}
+        >
+          교환 신청하기
+        </button>
       </Box>
     </Box>
   );

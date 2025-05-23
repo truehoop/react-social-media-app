@@ -19,6 +19,8 @@ import Login from '@pages/Login';
 import Profile from '@pages/Profile';
 import WildCard from '@pages/WildCard';
 
+import BookExchangeRequest from './pages/BookExchangeRequest';
+
 function AppContent() {
   const dispatch = useAppDispatch();
   const { user } = useUser();
@@ -104,6 +106,10 @@ function AppContent() {
         <Route
           path="/oauth/callback/kakao"
           element={<KakaoCallback />}
+        />
+        <Route
+          path="/exchange-request"
+          element={<BookExchangeRequest />}
         />
       </Routes>
     </Grid>
